@@ -1,0 +1,11 @@
+service_name: myapp
+description: My Application Service
+exec_start: /usr/local/bin/myapp serve
+user: www-data
+group: www-data
+restart: always
+restart_sec: 5
+environment:
+  NODE_ENV: production
+  PORT: "3000"
+  LOG_LEVEL: info

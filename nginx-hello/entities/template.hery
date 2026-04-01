@@ -1,0 +1,9 @@
+_type: amadla.org/entity/template@v1.0.0
+_requires:
+  - amadla.org/entity/application/webserver@v1.0.0
+_body:
+  engine: go
+  source: nginx-hello.conf.tmpl
+  output: /etc/nginx/sites-available/nginx-hello.conf
+  entity_types:
+    - amadla.org/entity/application/webserver@^v1.0.0

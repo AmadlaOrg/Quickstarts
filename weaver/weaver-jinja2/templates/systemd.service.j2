@@ -1,0 +1,17 @@
+[Unit]
+Description={{ description }}
+After=network.target
+
+[Service]
+Type=simple
+User={{ user }}
+Group={{ group }}
+ExecStart={{ exec_start }}
+Restart={{ restart }}
+RestartSec={{ restart_sec }}
+{% for key, value in environment.items() %}
+Environment={{ key }}={{ value }}
+{% endfor %}
+
+[Install]
+WantedBy=multi-user.target

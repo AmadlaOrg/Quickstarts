@@ -1,0 +1,21 @@
+[Unit]
+Description=My Application Service
+After=network.target
+
+[Service]
+Type=simple
+User=www-data
+Group=www-data
+ExecStart=/usr/local/bin/myapp serve
+Restart=always
+RestartSec=5
+
+Environment=LOG_LEVEL=info
+
+Environment=NODE_ENV=production
+
+Environment=PORT=3000
+
+
+[Install]
+WantedBy=multi-user.target

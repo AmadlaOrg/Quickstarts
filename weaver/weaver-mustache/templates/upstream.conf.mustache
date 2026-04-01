@@ -1,0 +1,5 @@
+upstream {{app_name}} {
+{{#upstreams}}
+    server {{host}}:{{port}} weight={{weight}};
+{{/upstreams}}
+}

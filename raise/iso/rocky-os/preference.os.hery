@@ -1,0 +1,12 @@
+_type: amadla.org/entity/os/preference@v1.0.0
+_extends: amadla.org/entity/os@v1.0.0
+_meta:
+  description: RHEL-family tool preferences for Rocky Linux
+_body:
+  firewall: firewalld
+  mac: selinux
+  package_managers:
+    default: dnf
+  cron: systemd-timer
+  service_manager: systemd
+  network: nmcli

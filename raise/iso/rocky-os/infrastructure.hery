@@ -1,0 +1,8 @@
+_type: amadla.org/entity/infrastructure@v1.0.0
+_meta:
+  description: Libvirt/KVM provider for local VM provisioning
+_body:
+  provider: libvirt
+  ssh:
+    user: root
+    port: 22

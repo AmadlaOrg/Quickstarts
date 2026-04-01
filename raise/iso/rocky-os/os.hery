@@ -1,0 +1,10 @@
+_type: amadla.org/entity/os@v1.0.0
+_meta:
+  description: Rocky Linux 10.1 minimal install
+_body:
+  distro: rocky
+  version: "10.1"
+  arch:
+    - x86_64
+  family: rhel
+  init: systemd

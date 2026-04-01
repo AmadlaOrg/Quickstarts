@@ -1,0 +1,5 @@
+_type: amadla.org/entity/security/mac@v1.0.0
+_meta:
+  description: SELinux enforcing mode for Rocky Linux
+_body:
+  mode: enforcing

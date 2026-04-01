@@ -1,0 +1,15 @@
+_type: amadla.org/entity/application/webserver@v1.0.0
+_requires:
+  - amadla.org/entity/package@v1.0.0
+_body:
+  server_name: localhost
+  listen:
+    - 8080
+  root: /var/www/nginx-hello
+  index:
+    - index.html
+  locations:
+    - path: /
+      try_files: "$uri $uri/ =404"
+  access_log: /var/log/nginx/nginx-hello.access.log
+  error_log: /var/log/nginx/nginx-hello.error.log

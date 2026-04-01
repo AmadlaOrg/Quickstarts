@@ -1,0 +1,7 @@
+_type: amadla.org/entity/template@v1.0.0
+_meta:
+  description: Template configuration
+_body:
+  engine: go
+  source: templates
+  output: output

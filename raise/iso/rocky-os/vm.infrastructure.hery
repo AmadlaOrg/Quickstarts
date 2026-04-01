@@ -1,0 +1,16 @@
+_type: amadla.org/entity/infrastructure/vm@v1.0.0
+_requires:
+  - amadla.org/entity/infrastructure@v1.0.0
+  - amadla.org/entity/os@v1.0.0
+_meta:
+  description: Rocky Linux 10.1 VM from local ISO
+_body:
+  image: ~/Projects/OS/Rocky-10.1-x86_64-minimal.iso
+  disk:
+    size: 20
+    format: qcow2
+  forwarded_ports:
+    - guest: 22
+      host: 2222
+      protocol: tcp
+  gui: true

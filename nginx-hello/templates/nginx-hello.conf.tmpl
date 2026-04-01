@@ -1,0 +1,17 @@
+server {
+    listen {{ range .listen }}{{ . }} {{ end }};
+    server_name {{ .server_name }};
+
+    root {{ .root }};
+    index {{ range .index }}{{ . }} {{ end }};
+
+    {{ range .locations }}
+    location {{ .path }} {
+        {{ if .try_files }}try_files {{ .try_files }};{{ end }}
+        {{ if .proxy_pass }}proxy_pass {{ .proxy_pass }};{{ end }}
+    }
+    {{ end }}
+
+    access_log {{ .access_log }};
+    error_log {{ .error_log }};
+}

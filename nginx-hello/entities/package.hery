@@ -1,0 +1,6 @@
+_type: amadla.org/entity/package@v1.0.0
+_body:
+  manager: auto
+  update: true
+  packages:
+    - nginx

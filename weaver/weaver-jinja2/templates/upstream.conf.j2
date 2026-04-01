@@ -1,0 +1,5 @@
+upstream {{ app_name }} {
+{% for srv in upstreams %}
+    server {{ srv.host }}:{{ srv.port }} weight={{ srv.weight }};
+{% endfor %}
+}

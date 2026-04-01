@@ -1,0 +1,5 @@
+upstream {{ .app_name }} {
+{{ range .upstreams }}
+    server {{ .host }}:{{ .port }} weight={{ .weight }};
+{{ end }}
+}

@@ -1,0 +1,9 @@
+{
+  "app_name": "myapp",
+  "server_name": "myapp.example.com",
+  "listen_port": 80,
+  "proxy_port": 3000,
+  "root_path": "/var/www/myapp",
+  "workers": 4,
+  "enable_ssl": false
+}

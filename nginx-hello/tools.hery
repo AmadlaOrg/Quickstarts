@@ -1,0 +1,13 @@
+_type: amadla.org/entity/tools@v1.0.0
+_body:
+  tools:
+    - name: hery
+      required: true
+      entity_types:
+        - "amadla.org/entity/*"
+    - name: lay
+      entity_types:
+        - "amadla.org/entity/package"
+    - name: weaver
+      entity_types:
+        - "amadla.org/entity/template"

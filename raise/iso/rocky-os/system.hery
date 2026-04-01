@@ -1,0 +1,7 @@
+_type: amadla.org/entity/system@v1.0.0
+_meta:
+  description: System-level configuration for the Rocky VM
+_body:
+  hostname: rocky-demo
+  timezone: UTC
+  locale: en_US.UTF-8
