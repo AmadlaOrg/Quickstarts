@@ -12,41 +12,44 @@ Provision a Rocky Linux 10.1 VM using a local ISO image with KVM/libvirt.
 
 ## Entity Files
 
-This quickstart defines the VM using 7 entity files — each describes one concern:
+This quickstart defines the VM using 8 entity files — each describes one concern:
 
 | File | Entity Type | Purpose |
 |------|-------------|---------|
 | `os.hery` | OS | Rocky Linux 10.1, x86_64, RHEL family |
-| `os-preference.hery` | OS/Preference | Tool choices: dnf, firewalld, SELinux, nmcli |
+| `preference.os.hery` | OS/Preference | Tool choices: dnf, firewalld, SELinux, nmcli |
 | `infrastructure.hery` | Infrastructure | Provider = libvirt, SSH defaults |
-| `vm.hery` | Infrastructure/VM | ISO path, disk size, port forwarding, GUI |
+| `vm.infrastructure.hery` | Infrastructure/VM | ISO path, disk size, port forwarding, GUI |
 | `system.hery` | System | Hostname, timezone, locale |
-| `cpu.hery` | System/CPU | 2 vCPUs |
-| `memory.hery` | System/Memory | 2048 MB RAM |
+| `cpu.system.hery` | System/CPU | 2 vCPUs |
+| `memory.system.hery` | System/Memory | 2048 MB RAM |
+| `mac.security.hery` | Security/MAC | SELinux enforcing mode |
 
 ### Entity Relationships
 
 ```
-vm.hery
-├── _requires: infrastructure.hery  (provider config)
-└── _requires: os.hery              (which OS to install)
-
-cpu.hery
-└── _requires: vm.hery              (CPU allocation for this VM)
-
-memory.hery
-└── _requires: vm.hery              (memory allocation for this VM)
-
-os-preference.hery
-└── _extends: os.hery               (inherits OS identity, adds tool preferences)
-
-system.hery                          (standalone — hostname/timezone/locale)
+preference.os.hery (leaf)    mac.security.hery (leaf)    cpu.system.hery (leaf)    memory.system.hery (leaf)
+       ↓                            ↓                          ↓                          ↓
+      os.hery ←─────────────────────┘                       system.hery ←──────────────────┘
+       ↓                                                       ↓
+       └────────────→ vm.infrastructure.hery ←─────────────────┘
+                              ↓
+                     infrastructure.hery (entry point)
 ```
 
-The DAG execution order would be:
-1. `os.hery` + `infrastructure.hery` (no dependencies)
-2. `vm.hery` (depends on infrastructure + os)
-3. `cpu.hery` + `memory.hery` (depend on vm)
+Each entity declares `_requires` on its dependencies using local file paths:
+
+- `infrastructure.hery` → `_requires: [./vm.infrastructure.hery]`
+- `vm.infrastructure.hery` → `_requires: [./system.hery, ./os.hery]`
+- `system.hery` → `_requires: [./cpu.system.hery, ./memory.system.hery]`
+- `os.hery` → `_requires: [./preference.os.hery, ./mac.security.hery]`
+- `preference.os.hery` → `_extends: amadla.org/entity/os@v1.0.0` (data inheritance, not execution order)
+
+The DAG execution order (leaves first):
+1. `preference.os.hery` + `mac.security.hery` + `cpu.system.hery` + `memory.system.hery` (leaves)
+2. `os.hery` + `system.hery` (depend on leaves)
+3. `vm.infrastructure.hery` (depends on os + system)
+4. `infrastructure.hery` (entry point, processed last)
 
 ## Step-by-Step
 
@@ -54,28 +57,29 @@ The DAG execution order would be:
 
 Read each `.hery` file to understand what's being declared. Key points:
 
-- **`vm.hery`** — `box` points to the local ISO. `gui: true` opens a virt-viewer window so you can interact with the Rocky installer. Port 22 on the guest is forwarded to 2222 on the host.
-- **`cpu.hery` / `memory.hery`** — Resource allocation is separate from the VM entity (HERY design: CPU/memory are their own entity types linked via `_requires`).
-- **`os-preference.hery`** — Tells downstream tools (lay, enjoin) which backends to use. Not consumed by raise itself, but part of the full entity set.
+- **`vm.infrastructure.hery`** — `image` points to the local ISO. `gui: true` opens a virt-viewer window so you can interact with the Rocky installer. Port 22 on the guest is forwarded to 2222 on the host.
+- **`cpu.system.hery` / `memory.system.hery`** — Resource allocation is separate from the VM entity (HERY design: CPU/memory are their own entity types linked via `_requires`).
+- **`preference.os.hery`** — Tells downstream tools (lay, enjoin) which backends to use. Not consumed by raise itself, but part of the full entity set.
+- **`mac.security.hery`** — Declares SELinux enforcing mode. Consumed by enjoin-mac downstream.
 
 ### 2. Provision the VM
 
 ```bash
-raise up rocky-demo --from libvirt -f vm.hery
+raise up rocky-demo -f infrastructure.hery
 ```
 
-This tells raise to delegate to `raise-libvirt`, which runs `virt-install` under the hood.
+raise reads the `provider: libvirt` field from `infrastructure.hery` and delegates to `raise-libvirt`, which runs `virt-install` under the hood. You can also specify the provider explicitly with `--provider libvirt`.
 
 ### 3. Check status
 
 ```bash
-raise status rocky-demo --from libvirt
+raise status rocky-demo --provider libvirt
 ```
 
 ### 4. SSH into the VM
 
 ```bash
-raise ssh rocky-demo --from libvirt
+raise ssh rocky-demo --provider libvirt
 ```
 
 Or directly:
@@ -87,40 +91,19 @@ ssh -p 2222 root@localhost
 ### 5. Halt / Destroy
 
 ```bash
-raise halt rocky-demo --from libvirt
-raise destroy rocky-demo --from libvirt
+raise halt rocky-demo --provider libvirt
+raise destroy rocky-demo --provider libvirt
 ```
 
-## Known Limitation: ISO vs Cloud Image
+## Known Limitation: Entity Resolution
 
-**raise-libvirt currently treats `box` as a disk image** (qcow2). It passes the path to `virt-install --disk`, which works for pre-built cloud images but not for ISO boot installs.
-
-For an ISO install, `virt-install` needs:
+raise and raise-libvirt currently accept a single entity file (`-f <file>`). They do not resolve `_requires` or read dependent entities. The full pipeline requires `hery resolve` to build the DAG and pipe the resolved entity stream:
 
 ```bash
-virt-install \
-  --name rocky-demo \
-  --vcpus 2 \
-  --memory 2048 \
-  --disk size=20,format=qcow2 \
-  --cdrom /home/jn/Projects/OS/Rocky-10.1-x86_64-minimal.iso \
-  --os-variant rocky9 \
-  --network network=default,model=virtio \
-  --graphics spice
+hery resolve ./rocky-os/ | raise up rocky-demo
 ```
 
-The key difference: `--cdrom` for the ISO + a blank `--disk` to install onto. The plugin would need to detect ISO files (by extension or content) and switch to `--cdrom` mode instead of passing the ISO as a disk image.
-
-### What raise-libvirt needs to support this
-
-The `resolveBoxImage` / `buildVirtInstallArgs` functions in `raise-libvirt/libvirt/libvirt.go` need:
-
-1. **ISO detection** — check if `box` path ends in `.iso`
-2. **Different virt-install args** — use `--cdrom <iso>` + `--disk size=N,format=qcow2` (blank disk)
-3. **GUI default** — ISO installs need `gui: true` (interactive installer), so default to `--graphics spice` when ISO detected
-4. **OS variant mapping** — map entity OS info to `--os-variant` (e.g., rocky → rocky9)
-
-Until then, this quickstart documents the **target entity model** — the entities are correct, but `raise-libvirt` needs the ISO boot path implemented.
+Until `hery resolve` is implemented, raise-libvirt reads only the Infrastructure entity directly. CPU/memory values from System/CPU and System/Memory are not yet consumed by the plugin.
 
 ## Full Pipeline (Future)
 
@@ -133,5 +116,5 @@ amadla run --config tools.hery -f .
 Which processes the entity DAG:
 1. **raise** → creates the VM from ISO (interactive install)
 2. **lay** → installs packages (reads os-preference for dnf)
-3. **enjoin** → configures system state (hostname, firewall, SELinux)
+3. **enjoin** → configures system state (hostname, timezone, locale, SELinux)
 4. **weaver** → generates config files from templates

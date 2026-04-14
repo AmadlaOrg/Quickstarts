@@ -1,7 +1,7 @@
 _type: amadla.org/entity/infrastructure/vm@v1.0.0
 _requires:
-  - amadla.org/entity/infrastructure@v1.0.0
-  - amadla.org/entity/os@v1.0.0
+  - ./system.hery
+  - ./os.hery
 _meta:
   description: Rocky Linux 10.1 VM from local ISO
 _body:

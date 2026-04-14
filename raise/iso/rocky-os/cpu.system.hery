@@ -1,6 +1,4 @@
 _type: amadla.org/entity/system/cpu@v1.0.0
-_requires:
-  - amadla.org/entity/infrastructure/vm@v1.0.0
 _meta:
   description: CPU allocation for Rocky VM
 _body:

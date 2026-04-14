@@ -1,4 +1,7 @@
 _type: amadla.org/entity/os@v1.0.0
+_requires:
+  - ./preference.os.hery
+  - ./mac.security.hery
 _meta:
   description: Rocky Linux 10.1 minimal install
 _body:

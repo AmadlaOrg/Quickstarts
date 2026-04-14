@@ -1,4 +1,7 @@
 _type: amadla.org/entity/system@v1.0.0
+_requires:
+  - ./cpu.system.hery
+  - ./memory.system.hery
 _meta:
   description: System-level configuration for the Rocky VM
 _body:
