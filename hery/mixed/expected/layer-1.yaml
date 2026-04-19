@@ -1,0 +1,20 @@
+_type: amadla.org/entity/infrastructure@v1.0.0
+_extends: ../external/base-infra/infrastructure.hery
+_requires:
+  - ../external/packages/
+_meta:
+  description: Custom infra extending base, requiring packages
+_body:
+  provider: libvirt
+  ssh:
+    user: root
+    port: 2222
+    key: ~/.ssh/id_ed25519
+_type: amadla.org/entity/infrastructure/vm@v1.0.0
+_meta:
+  description: VM spec
+_body:
+  image: ubuntu-24.04.qcow2
+  disk:
+    size: 15
+    format: qcow2

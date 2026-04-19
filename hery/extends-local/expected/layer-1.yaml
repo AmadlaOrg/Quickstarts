@@ -1,0 +1,26 @@
+_type: amadla.org/entity/os@v1.0.0
+_meta:
+  description: Base Rocky Linux
+_body:
+  distro: rocky
+  version: "10.1"
+  arch:
+    - x86_64
+  family: rhel
+  init: systemd
+_type: amadla.org/entity/os/preference@v1.0.0
+_extends: ./os.hery
+_meta:
+  description: RHEL tool preferences
+_body:
+  distro: rocky
+  version: "10.1"
+  arch:
+    - x86_64
+  family: rhel
+  init: systemd
+  firewall: firewalld
+  mac: selinux
+  package_managers:
+    default: dnf
+  service_manager: systemd

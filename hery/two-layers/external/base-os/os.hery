@@ -1,0 +1,10 @@
+_type: amadla.org/entity/os@v1.0.0
+_meta:
+  description: Base Debian OS
+_body:
+  distro: debian
+  version: "12"
+  arch:
+    - x86_64
+  family: debian
+  init: systemd

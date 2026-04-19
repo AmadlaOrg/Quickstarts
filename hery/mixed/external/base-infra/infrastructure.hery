@@ -1,0 +1,8 @@
+_type: amadla.org/entity/infrastructure@v1.0.0
+_meta:
+  description: Base infrastructure defaults
+_body:
+  ssh:
+    user: root
+    port: 22
+    key: ~/.ssh/id_ed25519

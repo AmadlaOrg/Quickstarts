@@ -1,0 +1,11 @@
+_type: amadla.org/entity/infrastructure/vm@v1.0.0
+_requires:
+  - ./system.hery
+_meta:
+  description: VM definition
+_body:
+  image: rocky-10.1-minimal.iso
+  disk:
+    size: 20
+    format: qcow2
+  gui: true

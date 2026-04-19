@@ -1,0 +1,9 @@
+_type: amadla.org/entity/application@v1.0.0
+_requires:
+  - ../layer-a/
+_meta:
+  description: Nginx web server
+_body:
+  name: nginx
+  version: "1.26"
+  source: package

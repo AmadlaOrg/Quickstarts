@@ -1,0 +1,10 @@
+_type: amadla.org/entity/infrastructure@v1.0.0
+_requires:
+  - ./vm.infrastructure.hery
+_meta:
+  description: Libvirt provider
+_body:
+  provider: libvirt
+  ssh:
+    user: root
+    port: 22

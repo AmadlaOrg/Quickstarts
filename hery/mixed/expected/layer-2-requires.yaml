@@ -1,0 +1,6 @@
+_type: amadla.org/entity/package@v1.0.0
+_meta:
+  description: Core packages
+_body:
+  name: curl
+  version: "8.0"

@@ -1,0 +1,10 @@
+_type: amadla.org/entity/os/preference@v1.0.0
+_extends: ./os.hery
+_meta:
+  description: RHEL tool preferences
+_body:
+  firewall: firewalld
+  mac: selinux
+  package_managers:
+    default: dnf
+  service_manager: systemd

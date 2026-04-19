@@ -1,0 +1,8 @@
+_type: amadla.org/entity/infrastructure/vm@v1.0.0
+_meta:
+  description: VM spec
+_body:
+  image: ubuntu-24.04.qcow2
+  disk:
+    size: 15
+    format: qcow2

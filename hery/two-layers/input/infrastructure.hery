@@ -1,0 +1,10 @@
+_type: amadla.org/entity/infrastructure@v1.0.0
+_requires:
+  - ../external/base-os/
+_meta:
+  description: Libvirt provider for Debian VM
+_body:
+  provider: libvirt
+  ssh:
+    user: root
+    port: 22

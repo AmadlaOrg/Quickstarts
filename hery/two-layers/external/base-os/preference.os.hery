@@ -1,0 +1,10 @@
+_type: amadla.org/entity/os/preference@v1.0.0
+_extends: ./os.hery
+_meta:
+  description: Debian tool preferences
+_body:
+  firewall: ufw
+  mac: apparmor
+  package_managers:
+    default: apt
+  service_manager: systemd

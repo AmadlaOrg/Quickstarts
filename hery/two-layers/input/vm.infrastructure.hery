@@ -1,0 +1,9 @@
+_type: amadla.org/entity/infrastructure/vm@v1.0.0
+_meta:
+  description: Debian 12 VM
+_body:
+  image: debian-12-generic-amd64.qcow2
+  disk:
+    size: 10
+    format: qcow2
+  gui: false

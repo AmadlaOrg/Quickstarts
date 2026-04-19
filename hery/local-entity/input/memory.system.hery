@@ -1,0 +1,5 @@
+_type: amadla.org/entity/system/memory@v1.0.0
+_meta:
+  description: Memory allocation
+_body:
+  size: 2048

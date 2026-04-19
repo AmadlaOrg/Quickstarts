@@ -1,0 +1,10 @@
+_type: amadla.org/entity/infrastructure@v1.0.0
+_extends: ../external/base-infra/infrastructure.hery
+_requires:
+  - ../external/packages/
+_meta:
+  description: Custom infra extending base, requiring packages
+_body:
+  provider: libvirt
+  ssh:
+    port: 2222

@@ -1,0 +1,7 @@
+_type: amadla.org/entity/service@v1.0.0
+_meta:
+  description: Nginx systemd service
+_body:
+  name: nginx
+  enabled: true
+  state: started

@@ -1,0 +1,11 @@
+_type: amadla.org/entity/application@v1.0.0
+_meta:
+  description: Base web application defaults
+_body:
+  source: package
+  runtime:
+    user: www-data
+    group: www-data
+  logging:
+    enabled: true
+    path: /var/log/app

@@ -1,0 +1,10 @@
+_type: amadla.org/entity/infrastructure@v1.0.0
+_requires:
+  - ../layer-b/
+_meta:
+  description: Web server on libvirt VM
+_body:
+  provider: libvirt
+  ssh:
+    user: admin
+    port: 22

@@ -1,0 +1,5 @@
+_type: amadla.org/entity/system/cpu@v1.0.0
+_meta:
+  description: CPU allocation
+_body:
+  cpus: 2

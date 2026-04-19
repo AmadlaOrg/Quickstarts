@@ -1,0 +1,6 @@
+_type: amadla.org/entity/package@v1.0.0
+_meta:
+  description: Nginx web server package
+_body:
+  name: nginx
+  version: "1.26"

@@ -1,0 +1,9 @@
+_type: amadla.org/entity/application@v1.0.0
+_extends: ../external/base-app/application.hery
+_meta:
+  description: Nginx with custom overrides
+_body:
+  name: nginx
+  version: "1.26"
+  logging:
+    path: /var/log/nginx
