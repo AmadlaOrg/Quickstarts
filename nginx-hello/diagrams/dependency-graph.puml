@@ -1,0 +1,24 @@
+@startuml dependency-graph
+title nginx-hello — Entity Dependency Graph
+
+skinparam componentStyle rectangle
+skinparam shadowing false
+skinparam defaultFontName monospaced
+skinparam ArrowColor #444444
+skinparam rectangle {
+  BackgroundColor #FDFDFD
+  BorderColor #444444
+}
+
+rectangle "template.hery\n<size:10>(template — render config)</size>" as template
+rectangle "webserver.hery\n<size:10>(application/webserver — configure nginx)</size>" as webserver
+rectangle "package.hery\n<size:10>(package — install nginx)</size>" as package
+
+template --> webserver : _requires
+webserver --> package : _requires
+
+note bottom
+  ""amadla run"" resolves via topological sort:
+  package → webserver → template
+end note
+@enduml

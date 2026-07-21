@@ -27,15 +27,9 @@ This quickstart defines the VM using 8 entity files — each describes one conce
 
 ### Entity Relationships
 
-```
-preference.os.hery (leaf)    mac.security.hery (leaf)    cpu.system.hery (leaf)    memory.system.hery (leaf)
-       ↓                            ↓                          ↓                          ↓
-      os.hery ←─────────────────────┘                       system.hery ←──────────────────┘
-       ↓                                                       ↓
-       └────────────→ vm.infrastructure.hery ←─────────────────┘
-                              ↓
-                     infrastructure.hery (entry point)
-```
+![Entity relationships](diagrams/entity-relationships.svg)
+
+*Diagram source: [`diagrams/entity-relationships.puml`](diagrams/entity-relationships.puml)*
 
 Each entity declares `_requires` on its dependencies using local file paths:
 
@@ -114,7 +108,7 @@ amadla run --config tools.hery -f .
 ```
 
 Which processes the entity DAG:
-1. **raise** → creates the VM from ISO (interactive install)
-2. **lay** → installs packages (reads os-preference for dnf)
-3. **enjoin** → configures system state (hostname, timezone, locale, SELinux)
-4. **weaver** → generates config files from templates
+
+![Full Amadla pipeline](diagrams/full-pipeline.svg)
+
+*Diagram source: [`diagrams/full-pipeline.puml`](diagrams/full-pipeline.puml)*

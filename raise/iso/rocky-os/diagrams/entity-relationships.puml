@@ -1,0 +1,37 @@
+@startuml entity-relationships
+title Rocky Linux ISO Quickstart — Entity Relationships
+
+skinparam componentStyle rectangle
+skinparam shadowing false
+skinparam defaultFontName monospaced
+skinparam ArrowColor #444444
+skinparam rectangle {
+  BackgroundColor #FDFDFD
+  BorderColor #444444
+}
+
+rectangle "infrastructure.hery\n<size:10>(Infrastructure — entry point)</size>" as infra
+rectangle "vm.infrastructure.hery\n<size:10>(Infrastructure/VM)</size>" as vm
+rectangle "os.hery\n<size:10>(OS)</size>" as os
+rectangle "system.hery\n<size:10>(System)</size>" as system
+rectangle "preference.os.hery\n<size:10>(OS/Preference — leaf)</size>" as pref
+rectangle "mac.security.hery\n<size:10>(Security/MAC — leaf)</size>" as mac
+rectangle "cpu.system.hery\n<size:10>(System/CPU — leaf)</size>" as cpu
+rectangle "memory.system.hery\n<size:10>(System/Memory — leaf)</size>" as mem
+rectangle "amadla.org/entity/os@v1.0.0\n<size:10>(external entity)</size>" as extos #EEEEEE
+
+infra --> vm : _requires
+vm --> os : _requires
+vm --> system : _requires
+os --> pref : _requires
+os --> mac : _requires
+system --> cpu : _requires
+system --> mem : _requires
+pref ..> extos : _extends\n<size:10>(data inheritance,</size>\n<size:10>not execution order)</size>
+
+legend right
+  |= Arrow |= Meaning |
+  | ──▶ | ""_requires"" (execution ordering, DAG) |
+  | ┈┈▶ | ""_extends"" (deep-merge inheritance) |
+endlegend
+@enduml

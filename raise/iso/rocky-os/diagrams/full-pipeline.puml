@@ -1,0 +1,43 @@
+@startuml full-pipeline
+title Rocky Linux ISO Quickstart — Full Amadla Pipeline (Future)
+
+skinparam shadowing false
+skinparam defaultFontName monospaced
+skinparam ArrowColor #444444
+skinparam activity {
+  BackgroundColor #FDFDFD
+  BorderColor #444444
+}
+skinparam note {
+  BackgroundColor #F5F5F5
+  BorderColor #999999
+}
+
+start
+:amadla run --config tools.hery -f .;
+note right
+  resolves the entity DAG
+  (topological sort of ""_requires"")
+end note
+:raise;
+note right
+  creates the VM from ISO
+  (interactive install)
+end note
+:lay;
+note right
+  installs packages
+  (reads OS/Preference for dnf)
+end note
+:enjoin;
+note right
+  configures system state
+  (hostname, timezone, locale, SELinux)
+end note
+:weaver;
+note right
+  generates config files
+  from templates
+end note
+stop
+@enduml

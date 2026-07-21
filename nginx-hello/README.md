@@ -21,13 +21,9 @@ entities/
 
 ## Dependency Graph
 
-```
-package.hery (install nginx)
-    ↑
-webserver.hery (configure nginx)    ← _requires package
-    ↑
-template.hery (render config)       ← _requires webserver
-```
+![Dependency graph](diagrams/dependency-graph.svg)
+
+*Diagram source: [`diagrams/dependency-graph.puml`](diagrams/dependency-graph.puml)*
 
 `amadla run` resolves this via topological sort: package → webserver → template.
 
